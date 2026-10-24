@@ -1,0 +1,15 @@
+uploads/
+jobs/
+*.pt
+__pycache__/
+Ultralytics/
+.ui-qa/
+.env
+.env.*
+!.env.example
+node_modules/
+.venv/
+venv/
+*.log
+.DS_Store
+Thumbs.db

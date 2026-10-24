@@ -1,0 +1,48 @@
+.upload-progress {
+  background: #f7fbff;
+  border: 1px solid #d8e7fa;
+  border-radius: 8px;
+  margin: 0 0 14px;
+  padding: 11px 12px;
+}
+
+.upload-progress-header {
+  color: #3f5871;
+  display: flex;
+  font-size: 11px;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.upload-progress-header span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.upload-progress-header strong {
+  color: #2466bf;
+  flex: none;
+}
+
+.progress-track {
+  background: #dce9f7;
+  border-radius: 999px;
+  height: 7px;
+  margin: 8px 0 6px;
+  overflow: hidden;
+}
+
+.progress-track span {
+  background: linear-gradient(90deg, #2678f2, #3dbd96);
+  border-radius: inherit;
+  display: block;
+  height: 100%;
+  transition: width 180ms ease;
+  width: 0;
+}
+
+.upload-progress small {
+  color: #65768a;
+  font-size: 10px;
+}

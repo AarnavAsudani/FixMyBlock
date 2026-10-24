@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1b2b" />
+    <title>FixMyBlock | Operations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/upload-progress.css" />
+    <link rel="stylesheet" href="/ui-fixes.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#dashboard" data-view="dashboard" aria-label="FixMyBlock home"><span class="brand-mark" aria-hidden="true">✦</span><span>FixMyBlock</span></a>
+        <p class="eyebrow side-label">CONTROL ROOM</p>
+        <nav aria-label="Primary navigation">
+          <a class="nav-link active" href="#dashboard" data-view="dashboard" aria-label="Overview" title="Overview"><span aria-hidden="true">▦</span>Overview</a>
+          <a class="nav-link" href="#missions" data-view="missions" aria-label="Missions" title="Missions"><span aria-hidden="true">⌁</span>Missions</a>
+          <a class="nav-link" href="#reviews" data-view="reviews" aria-label="Hazard review" title="Hazard review"><span aria-hidden="true">◈</span>Hazard review <b id="reviewBadge">0</b></a>
+          <a class="nav-link" href="#reports" data-view="reports" aria-label="Reports" title="Reports"><span aria-hidden="true">▤</span>Reports</a>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="operator"><span class="avatar">AK</span><div><strong>Aarnav</strong><small>City ops coordinator</small></div></div>
+          <span class="live"><i></i> System online</span>
+        </div>
+      </aside>
+      <main>
+        <header class="topbar"><div><p class="eyebrow">NEIGHBORHOOD OPERATIONS</p><h1 id="pageTitle">Good Evening, Aarnav</h1></div><div class="top-actions"><span class="sync-dot"><i></i><span id="syncTime">Syncing…</span></span><button class="button button-secondary" id="openUpload">↑ Upload inspection</button><button class="button" id="openPlan">+ Plan mission</button></div></header>
+
+        <section class="view active" id="dashboard">
+          <div class="stats-grid" id="stats"></div>
+          <div class="dashboard-grid">
+            <section class="panel map-panel"><div class="panel-heading"><div><p class="eyebrow">ILLUSTRATIVE MAP</p><h2>Neighborhood watch</h2></div><button class="text-button" data-view="reviews">Open queue →</button></div><div class="map" id="map" role="region" aria-label="Illustrative neighborhood hazard map"><div class="river"></div><div class="park park-one"></div><div class="park park-two"></div><div class="road road-one"></div><div class="road road-two"></div><div class="road road-three"></div><div class="map-label label-a">MAPLEWOOD</div><div class="map-label label-b">RIVERSIDE</div><div class="map-legend"><span><i class="legend-dot high"></i>High</span><span><i class="legend-dot medium"></i>Medium</span><span><i class="legend-dot low"></i>Low</span></div></div></section>
+            <section class="panel queue-panel"><div class="panel-heading"><div><p class="eyebrow">ACTION NEEDED</p><h2>Review queue</h2></div><span class="queue-count" id="queueCount">0 items</span></div><div id="queuePreview" class="queue-preview"></div></section>
+          </div>
+          <section class="panel mission-strip"><div class="panel-heading"><div><p class="eyebrow">FLIGHT OPERATIONS</p><h2>Active missions</h2></div><button class="text-button" data-view="missions">View all →</button></div><div id="missionPreview" class="mission-cards"></div></section>
+        </section>
+
+        <section class="view" id="missions"><div class="section-heading"><div><p class="eyebrow">MISSION CONTROL</p><h2>Survey missions</h2><p>Your saved plans. Flight planning is simulated; no drone is connected.</p></div><button class="button" id="openPlanSecondary">+ Plan a mission</button></div><div class="panel empty-panel" id="missionsEmptyPanel" hidden><strong>No mission plans yet.</strong><p>Create a plan to add your own survey area. No sample missions are preloaded.</p></div><div class="panel table-panel" id="missionsTablePanel"><table><thead><tr><th>MISSION</th><th>AREA</th><th>COVERAGE</th><th>ALTITUDE</th><th>WAYPOINTS</th><th>STATUS</th></tr></thead><tbody id="missionsTable"></tbody></table></div></section>
+
+        <section class="view" id="reviews"><div class="section-heading"><div><p class="eyebrow">AI VERIFICATION</p><h2>Hazard review queue</h2><p>Review detected candidates before planning maintenance.</p></div><div class="filter-chips"><button class="chip active" data-filter="Needs review" aria-pressed="true">Needs review</button><button class="chip" data-filter="all" aria-pressed="false">All hazards</button></div></div><div id="reviewList" class="review-list"></div></section>
+
+        <section class="view" id="reports"><div class="section-heading"><div><p class="eyebrow">REPORTING</p><h2>Weekly condition report</h2><p>Snapshot of coverage, risk, and maintenance readiness.</p></div><button class="button" id="generateReport" disabled>Loading report…</button></div><div class="report-grid" id="reportContent"></div></section>
+      </main>
+    </div>
+
+    <dialog id="missionDialog" aria-labelledby="missionTitle">
+      <form class="dialog-card" id="missionForm">
+        <button class="close" type="button" data-close="missionDialog" aria-label="Close mission planner">×</button>
+        <p class="eyebrow">MISSION PLANNER</p><h2 id="missionTitle">Build a survey route</h2>
+        <p class="dialog-copy">Create a simulated flight plan with an estimated route and duration.</p>
+        <label>Neighborhood<input required name="neighborhood" placeholder="e.g. North Shore" maxlength="100" /></label>
+        <div class="form-row"><label>Altitude (m)<input required name="altitude" type="number" value="90" min="30" max="120" /></label><label>Coverage (km²)<input required name="coverage" type="number" value="2.5" min="0.1" step="0.1" /></label></div>
+        <button class="button" type="submit">Create mission plan</button><p class="form-message" id="missionMessage" role="status"></p>
+      </form>
+    </dialog>
+    <dialog id="uploadDialog" aria-labelledby="uploadTitle">
+      <form class="dialog-card" id="uploadForm">
+        <button class="close" type="button" data-close="uploadDialog" aria-label="Close upload dialog">×</button>
+        <p class="eyebrow">DATA INGESTION</p><h2 id="uploadTitle">Upload an inspection</h2>
+        <p class="dialog-copy">Analyze an image, every page of a PDF, or sampled video frames. Files stay on this computer; candidates appear in Hazard review.</p>
+        <label class="drop-zone" for="footage"><span aria-hidden="true">▣</span><strong>Choose a PNG, JPG/JPEG, PDF, MP4, or MOV</strong><small id="fileHelp">Images: 25 MB / 40 megapixels · PDFs: 50 MB / 50 pages · Videos: 250 MB</small><input id="footage" required name="footage" type="file" accept=".png,.jpg,.jpeg,.pdf,.mp4,.mov,image/png,image/jpeg,application/pdf,video/mp4,video/quicktime" aria-describedby="fileHelp selectedFile modelHelp" /></label>
+        <p class="selected-file" id="selectedFile">No file selected.</p>
+        <p class="dialog-copy" id="modelHelp">Current model: potholes only. Crack detection needs a separately trained crack model. PDFs must be unencrypted.</p>
+        <div id="uploadProgress" class="upload-progress" hidden data-phase="idle">
+          <div class="upload-progress-header"><span id="uploadFileName">Preparing upload…</span><strong id="uploadPercent">0%</strong></div>
+          <div class="progress-track" role="progressbar" aria-label="File upload progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="uploadProgressBar"></span></div>
+          <small id="uploadStage" role="status">Waiting to upload</small>
+        </div>
+        <button class="button" type="submit">Upload &amp; analyze</button>
+        <p class="form-message" id="uploadMessage" role="status"></p>
+      </form>
+    </dialog>
+    <dialog id="reportDialog" aria-labelledby="reportTitle"><div class="dialog-card report-dialog"><button class="close" type="button" data-close="reportDialog" aria-label="Close report">×</button><p class="eyebrow">READY TO SHARE</p><h2 id="reportTitle">Weekly report</h2><div id="reportModalBody"></div><button class="button" id="printReport">Print / save PDF</button></div></dialog>
+    <div class="toast" id="toast" role="status"></div>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

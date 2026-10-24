@@ -1,0 +1,15 @@
+{
+  "name": "fixmyblock-local-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Runnable local prototype for drone-powered neighborhood hazard reviews.",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test tests/upload.test.js tests/demo-missions.test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
